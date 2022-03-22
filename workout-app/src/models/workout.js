@@ -3,5 +3,6 @@ export class Workout {
         this.distance = partial.distance || 0
         this.avgSpeed = partial.avgSpeed || 0
         this.totalTime = partial.totalTime || 0
+        this.maxAlt = partial.maxAlt || 0
     }
 }

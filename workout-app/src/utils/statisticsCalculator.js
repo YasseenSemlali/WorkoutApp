@@ -22,5 +22,5 @@ export function getTotalTime(points) {
 export function getAvgSpeed(distance, points) {
   const totalTime = getTotalTime(points);
   const kmPerMs = distance / totalTime;
-  return (kmPerMs * 3600000).toFixed(2);
+  return (kmPerMs * 3600000);
 }

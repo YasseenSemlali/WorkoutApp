@@ -21,11 +21,13 @@ export const useWorkouts = (username) => {
             const points = gpx.tracks[0].points;
             const totalTime = getTotalTime(points); // time in ms
             const avgSpeed = getAvgSpeed(totalDistance, points); // avg speed in km/hr
+            const maxAlt = gpx.tracks[0].elevation.max; //max altitude in m
     
             const w = new Workout({
                 totalDistance: totalDistance,
                 totalTime: totalTime,
-                avgSpeed: avgSpeed
+                avgSpeed: avgSpeed,
+                maxAlt: maxAlt
             })
             return w
         }))
