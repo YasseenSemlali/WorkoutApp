@@ -4,6 +4,7 @@ import {
 import { useEffect, useState } from "react";
 import firstFile from "../assets/gpx/Workout-2021-06-06-11-57-42.gpx";
 import StatisticsView from "../components/StatisticsView";
+import DailyView from "../components/DailyView";
 import { getTotalTime, getAvgSpeed } from "../utils/statisticsCalculator";
 import { useWorkouts } from "../hooks";
 
@@ -11,6 +12,7 @@ const gpxParser = require("gpxparser");
 
 function Statistics() {
   const gpx = new gpxParser();
+  const [dailyStatistics, setDailyStatistics] = useState({});
   const [overallStatistics, setOverallStatistics] = useState({});
   const [weeklyStatistics, setWeeklyStatistics] = useState({});
 
@@ -35,8 +37,29 @@ function Statistics() {
       });
   }, []);
 
+  useEffect(() => {
+    fetch(firstFile)
+      .then((r) => r.text())
+      .then((text) => {
+        gpx.parse(text);
+        const totalDistance = (gpx.tracks[0].distance.total / 1000).toFixed(2); // distance in km
+        const points = gpx.tracks[0].points;
+        const totalTime = getTotalTime(points); // time in ms
+        const avgSpeed = getAvgSpeed(totalDistance, points); // avg speed in km/hr
+        const maxAlt = gpx.tracks[0].elevation.max; //max altitude in m
+        const statsObj = {
+          totalDistance,
+          totalTime,
+          avgSpeed,
+          maxAlt
+        };
+        setDailyStatistics(statsObj);
+      });
+  }, []);
+
   return (
     <Container>
+          <DailyView id="daily" stats={dailyStatistics} />
           <StatisticsView id="overall" stats={overallStatistics} />
           <StatisticsView id="weekly" stats={weeklyStatistics} />
     </Container>
