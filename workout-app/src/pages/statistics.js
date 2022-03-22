@@ -5,12 +5,17 @@ import { useEffect, useState } from "react";
 import firstFile from "../assets/gpx/Workout-2021-06-06-11-57-42.gpx";
 import StatisticsView from "../components/StatisticsView";
 import { getTotalTime, getAvgSpeed } from "../utils/statisticsCalculator";
+import { useWorkouts } from "../hooks";
+
 const gpxParser = require("gpxparser");
 
 function Statistics() {
   const gpx = new gpxParser();
   const [overallStatistics, setOverallStatistics] = useState({});
   const [weeklyStatistics, setWeeklyStatistics] = useState({});
+
+  const { workouts } = useWorkouts('asdf')
+  console.log(workouts)
   
   useEffect(() => {
     fetch(firstFile)
