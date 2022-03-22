@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Statistics } from '../models';
-const gpxParser = require("gpxparser");
 
 export const useStatistics = (workouts) => {
     const [statistics, setStatistics] = useState({})
