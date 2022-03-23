@@ -26,7 +26,7 @@ const Value = styled(Typography)(({ theme }) => ({
 }));
 
 function StatisticsView(props) {
-  const { id, stats, showAverageSpeed } = props;
+  const { id, stats, showAverageSpeed, showAlt } = props;
 
   return (
     <Accordion defaultExpanded>
@@ -59,7 +59,14 @@ function StatisticsView(props) {
           </Item>
           : undefined
           }
-          
+          {
+            showAlt ? 
+            <Item>
+              <Label variant="h5">Max Altitude</Label>
+              <Value variant="h6">{`${stats.maxAlt} m`}</Value>
+            </Item>
+          : undefined
+          }
         </Stack>
       </AccordionDetails>
     </Accordion>
