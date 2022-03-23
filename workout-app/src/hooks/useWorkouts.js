@@ -12,7 +12,7 @@ export const useWorkouts = (username) => {
     const gpx = useMemo(() => new gpxParser(), []);
 
     useEffect(() => {
-        async function setWorkouts() {
+        async function exec() {
             let wrk = await Promise.all([file1, file2, file3, file4].map(async f => {
                 let file = await fetch(f)
                 let text = await file.text()
@@ -35,7 +35,7 @@ export const useWorkouts = (username) => {
 
             setWorkouts(wrk)
         }
-        setWorkouts()
+        exec()
     }, [gpx]);
 
     return { workouts: workouts, setWorkouts: setWorkouts }

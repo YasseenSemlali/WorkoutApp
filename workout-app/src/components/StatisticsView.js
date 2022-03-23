@@ -26,7 +26,7 @@ const Value = styled(Typography)(({ theme }) => ({
 }));
 
 function StatisticsView(props) {
-  const { id, stats } = props;
+  const { id, stats, showAverageSpeed } = props;
 
   return (
     <Accordion defaultExpanded>
@@ -51,10 +51,15 @@ function StatisticsView(props) {
             <Label variant="h5">Total Time</Label>
             <Value variant="h6">{timeToString(stats.totalTime)}</Value>
           </Item>
-          <Item>
+          {
+            showAverageSpeed ? 
+            <Item>
             <Label variant="h5">Average Speed</Label>
             <Value variant="h6">{`${stats.avgSpeed} km/hr`}</Value>
           </Item>
+          : undefined
+          }
+          
         </Stack>
       </AccordionDetails>
     </Accordion>

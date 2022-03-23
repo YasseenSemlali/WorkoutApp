@@ -13,7 +13,7 @@ function Statistics() {
   return (
     <Container>
           <DailyView id="daily" stats={dailyStatistics} />
-          <StatisticsView id="overall" stats={overallStatistics} />
+          <StatisticsView id="overall" stats={overallStatistics} showAverageSpeed/>
           <StatisticsView id="weekly" stats={weeklyStatistics} />
     </Container>
   );
