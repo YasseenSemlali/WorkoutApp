@@ -1,5 +1,6 @@
-import { Container } from "@mui/material";
-import DailyView from "../components/DailyView";
+import {
+  Container
+} from "@mui/material";
 import StatisticsView from "../components/StatisticsView";
 import { useStatistics, useWorkouts } from "../hooks";
 function Statistics() {
@@ -10,18 +11,9 @@ function Statistics() {
 
   return (
     <Container>
-      <DailyView id="daily" stats={dailyStatistics} />
-      <StatisticsView
-        id="overall"
-        stats={overallStatistics}
-        workouts={workouts}
-        showAverageSpeed
-      />
-      <StatisticsView
-        id="weekly"
-        stats={weeklyStatistics}
-        workouts={workouts}
-      />
+          <StatisticsView id="daily" stats={dailyStatistics} showAverageSpeed showAlt/>
+          <StatisticsView id="overall" stats={overallStatistics} workouts={workouts} showAverageSpeed/>
+          <StatisticsView id="weekly" stats={weeklyStatistics} workouts={workouts} />
     </Container>
   );
 }

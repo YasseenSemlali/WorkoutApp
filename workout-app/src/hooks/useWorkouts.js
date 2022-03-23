@@ -9,14 +9,13 @@ const gpxParser = require("gpxparser");
 
 export const useWorkouts = (username) => {
     const [workouts, setWorkouts] = useState([])
-    const gpx = useMemo(() => new gpxParser(), []);
 
     useEffect(() => {
         async function exec() {
             let wrk = await Promise.all([file1, file2, file3, file4].map(async (f, i) => {
                 let file = await fetch(f)
                 let text = await file.text()
-
+                const gpx =  new gpxParser()
                 gpx.parse(text);
                 const regex = /<s2t:energy>(\d*)<\/s2t:energy>/
                 const calsBurned = text.match(regex)[1];
@@ -42,7 +41,7 @@ export const useWorkouts = (username) => {
             setWorkouts(wrk)
         }
         exec()
-    }, [gpx]);
+    }, []);
 
     return { workouts: workouts, setWorkouts: setWorkouts }
 }
