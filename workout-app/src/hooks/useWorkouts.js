@@ -3,7 +3,7 @@ import file2 from "../assets/gpx/Workout-2021-06-18-13-36-30.gpx";
 import file3 from "../assets/gpx/Workout-2021-07-10-13-33-52.gpx";
 import file4 from "../assets/gpx/Workout-2021-07-17-12-54-07.gpx";
 import { getTotalTime, getAvgSpeed, timeToString } from "../utils/statisticsCalculator";
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState } from "react";
 import { Workout } from '../models'
 const gpxParser = require("gpxparser");
 

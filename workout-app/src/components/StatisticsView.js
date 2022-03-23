@@ -69,7 +69,9 @@ function StatisticsView(props) {
           : undefined
           }
         </Stack>
-        <WorkoutGrid workouts={workouts} />
+        {id !== 'daily' && (
+          <WorkoutGrid workouts={workouts} />
+        )}
       </AccordionDetails>
     </Accordion>
   );

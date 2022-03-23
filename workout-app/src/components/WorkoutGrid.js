@@ -9,7 +9,6 @@ function WorkoutGrid(props) {
     { field: "calsBurned", headerName: "Calories Burned", width: 180 },
   ];
 
-  console.log(workouts);
   return (
     <div style={{ height: 400, width: "100%", marginTop: 30 }}>
       <DataGrid
