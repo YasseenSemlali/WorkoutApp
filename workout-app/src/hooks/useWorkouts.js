@@ -9,14 +9,13 @@ const gpxParser = require("gpxparser");
 
 export const useWorkouts = (username) => {
     const [workouts, setWorkouts] = useState([])
-    const gpx = useMemo(() => new gpxParser(), []);
 
     useEffect(() => {
         async function exec() {
             let wrk = await Promise.all([file1, file2, file3, file4].map(async f => {
                 let file = await fetch(f)
                 let text = await file.text()
-
+                const gpx =  new gpxParser()
                 gpx.parse(text);
                 const totalDistance = (gpx.tracks[0].distance.total / 1000).toFixed(2); // distance in km
                 const points = gpx.tracks[0].points;
@@ -36,7 +35,7 @@ export const useWorkouts = (username) => {
             setWorkouts(wrk)
         }
         exec()
-    }, [gpx]);
+    }, []);
 
     return { workouts: workouts, setWorkouts: setWorkouts }
 }
