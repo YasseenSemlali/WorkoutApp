@@ -5,5 +5,6 @@ export class Statistics {
         this.avgDistance = partial.avgDistance || 0
         this.avgSpeed = partial.avgSpeed || 0
         this.maxAlt = partial.maxAlt || 0
+        this.calsBurned = partial.calsBurned || 0
     }
 }

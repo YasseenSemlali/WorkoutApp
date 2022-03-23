@@ -9,6 +9,7 @@ import {
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { timeToString } from "../utils/statisticsCalculator";
+import WorkoutGrid from "../components/WorkoutGrid";
 import { styled } from "@mui/material/styles";
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -26,7 +27,7 @@ const Value = styled(Typography)(({ theme }) => ({
 }));
 
 function StatisticsView(props) {
-  const { id, stats, showAverageSpeed } = props;
+  const { id, stats, workouts, showAverageSpeed } = props;
 
   return (
     <Accordion defaultExpanded>
@@ -61,6 +62,7 @@ function StatisticsView(props) {
           }
           
         </Stack>
+        <WorkoutGrid workouts={workouts} />
       </AccordionDetails>
     </Accordion>
   );
