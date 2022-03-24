@@ -7,5 +7,7 @@ export class Workout {
         this.totalTimeString = partial.totalTimeString || 0
         this.maxAlt = partial.maxAlt || 0
         this.calsBurned = partial.calsBurned || 0
+        this.startTime = partial.startTime || null;
+        this.dateString = partial.dateString || null;
     }
 }

@@ -27,7 +27,7 @@ const Value = styled(Typography)(({ theme }) => ({
 }));
 
 function StatisticsView(props) {
-  const { id, stats, workouts, showAverageSpeed, showAlt } = props;
+  const { id, stats, workouts, showAverageSpeed, showAlt, displayGrid } = props;
 
   return (
     <Accordion defaultExpanded>
@@ -69,8 +69,8 @@ function StatisticsView(props) {
           : undefined
           }
         </Stack>
-        {id !== 'daily' && (
-          <WorkoutGrid workouts={workouts} />
+        {displayGrid && (
+          <WorkoutGrid workouts={workouts} disableFilters />
         )}
       </AccordionDetails>
     </Accordion>

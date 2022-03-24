@@ -1,7 +1,8 @@
 import {
-  Container
+  Container, Typography
 } from "@mui/material";
 import StatisticsView from "../components/StatisticsView";
+import WorkoutGrid from "../components/WorkoutGrid"
 import { useStatistics, useWorkouts } from "../hooks";
 function Statistics() {
   const { workouts } = useWorkouts("asdf");
@@ -11,9 +12,11 @@ function Statistics() {
 
   return (
     <Container>
+          <Typography variant="h4">All Workouts</Typography>
+          <WorkoutGrid workouts={workouts} />
           <StatisticsView id="daily" stats={dailyStatistics} showAverageSpeed showAlt/>
           <StatisticsView id="overall" stats={overallStatistics} workouts={workouts} showAverageSpeed/>
-          <StatisticsView id="weekly" stats={weeklyStatistics} workouts={workouts} />
+          <StatisticsView id="weekly" stats={weeklyStatistics} workouts={workouts} displayGrid />
     </Container>
   );
 }

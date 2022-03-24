@@ -1,12 +1,13 @@
 import { DataGrid } from "@mui/x-data-grid";
 function WorkoutGrid(props) {
-  const { workouts } = props;
+  const { workouts, disableFilters } = props;
   const columns = [
-    { field: "distance", headerName: "Distance (km)", width: 180 },
-    { field: "totalTimeString", headerName: "Time", width: 180 },
-    { field: "avgSpeed", headerName: "Average Speed (km/hr)", width: 180 },
-    { field: "maxAlt", headerName: "Maximum Altitude (m)", width: 180 },
-    { field: "calsBurned", headerName: "Calories Burned", width: 180 },
+    { field: "dateString", sortable:!disableFilters , headerName: "Date", width: 180 },
+    { field: "distance", sortable:!disableFilters, headerName: "Distance (km)", width: 180 },
+    { field: "totalTimeString", sortable:!disableFilters, headerName: "Time (hr:min:sec)", width: 180 },
+    { field: "avgSpeed", sortable:!disableFilters, headerName: "Average Speed (km/hr)", width: 180 },
+    { field: "maxAlt", sortable:!disableFilters, headerName: "Maximum Altitude (m)", width: 180 },
+    { field: "calsBurned", sortable:!disableFilters, headerName: "Calories Burned", width: 160 },
   ];
 
   return (
@@ -18,6 +19,9 @@ function WorkoutGrid(props) {
         rowsPerPageOptions={[5]}
         disableSelectionOnClick
         getRowId={(row) => row.id}
+        disableColumnFilter={disableFilters}
+        disableColumnMenu={disableFilters}
+        disableColumnSelector={disableFilters}
       />
     </div>
   );
