@@ -1,3 +1,4 @@
+import { NextPlanTwoTone } from "@mui/icons-material";
 import { useEffect, useState } from "react";
 import { Statistics } from '../models';
 
@@ -11,6 +12,7 @@ export const useStatistics = (workouts) => {
         const avgSpeed = workouts.reduce((total, next) => parseFloat(total) + parseFloat(next.avgSpeed), 0) / workouts.length;
         const maxAlt = workouts.reduce((a, b) => a.maxAlt > b.maxAlt ? a.maxAlt : b.maxAlt, 0);
         const calsBurned = workouts.reduce((total, next) => total + next.calsBurned, 0);
+        const startTime = workouts.reduce((total, next) => total + next.startTime, 0);
 
         const stat = new Statistics({
             totalDistance: totalDistance.toFixed(2),
@@ -18,7 +20,8 @@ export const useStatistics = (workouts) => {
             totalTime: totalTime,
             avgSpeed: avgSpeed.toFixed(2),
             maxAlt: maxAlt,
-            calsBurned: calsBurned
+            calsBurned: calsBurned,
+            startTime : startTime
         })
         setStatistics(stat);
       }, [workouts]);

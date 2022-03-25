@@ -4,10 +4,14 @@ import {
 import StatisticsView from "../components/StatisticsView";
 import WorkoutGrid from "../components/WorkoutGrid"
 import { useStatistics, useWorkouts } from "../hooks";
+
 function Statistics() {
+  const d = new Date("2021-07-17");
   const { workouts } = useWorkouts("asdf");
-  const { statistics: dailyStatistics } = useStatistics(workouts);
-  const { statistics: weeklyStatistics } = useStatistics(workouts);
+  const weeklyWorkouts = (workouts.filter(w => daysBetween(w.startTime, d) <=7), [workouts]);
+  const dailyWorkouts = (workouts.filter(w => daysBetween(w.startTime, d) <= 1),[workouts]);
+  const { statistics: dailyStatistics } = useStatistics(dailyWorkouts);
+  const { statistics: weeklyStatistics } = useStatistics(weeklyWorkouts);
   const { statistics: overallStatistics } = useStatistics(workouts);
 
   return (
@@ -21,3 +25,9 @@ function Statistics() {
   );
 }
 export default Statistics;
+
+function daysBetween(dateParam, today){
+  var time_diff = today.getTime() - dateParam.getTime();
+  var date_diff = time_diff/ (1000 * 3600 * 24);
+  return date_diff;
+}
