@@ -1,6 +1,7 @@
 import {
   Container, Typography
 } from "@mui/material";
+import { useMemo } from "react";
 import StatisticsView from "../components/StatisticsView";
 import WorkoutGrid from "../components/WorkoutGrid"
 import { useStatistics, useWorkouts } from "../hooks";
@@ -8,8 +9,8 @@ import { useStatistics, useWorkouts } from "../hooks";
 function Statistics() {
   const d = new Date("2021-07-17");
   const { workouts } = useWorkouts("asdf");
-  const weeklyWorkouts = (workouts.filter(w => daysBetween(w.startTime, d) <=7), [workouts]);
-  const dailyWorkouts = (workouts.filter(w => daysBetween(w.startTime, d) <= 1),[workouts]);
+  const weeklyWorkouts = useMemo(() => workouts.filter(w => daysBetween(w.startTime, d) <=7), [workouts]);
+  const dailyWorkouts = useMemo(() => workouts.filter(w => daysBetween(w.startTime, d) <= 1),[workouts]);
   const { statistics: dailyStatistics } = useStatistics(dailyWorkouts);
   const { statistics: weeklyStatistics } = useStatistics(weeklyWorkouts);
   const { statistics: overallStatistics } = useStatistics(workouts);
