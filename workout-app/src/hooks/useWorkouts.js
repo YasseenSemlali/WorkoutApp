@@ -3,7 +3,7 @@ import file2 from "../assets/gpx/Workout-2021-06-18-13-36-30.gpx";
 import file3 from "../assets/gpx/Workout-2021-07-10-13-33-52.gpx";
 import file4 from "../assets/gpx/Workout-2021-07-17-12-54-07.gpx";
 import extra1 from "../assets/gpx/Extra-1.gpx";
-import { getTotalTime, getAvgSpeed, timeToString } from "../utils/statisticsCalculator";
+import { getTotalTime, getAvgSpeed } from "../utils/statisticsCalculator";
 import { useEffect, useState } from "react";
 import { Workout } from '../models'
 const gpxParser = require("gpxparser");
@@ -24,9 +24,7 @@ export const useWorkouts = (username) => {
                 const totalDistance = (gpx.tracks[0].distance.total / 1000).toFixed(2); // distance in km
                 const points = gpx.tracks[0].points;
                 const startTime = points[0].time
-                const dateString = new Date(startTime).toDateString()
                 const totalTime = getTotalTime(points); // time in ms
-                const totalTimeString = timeToString(totalTime);
                 const avgSpeed = getAvgSpeed(totalDistance, points); // avg speed in km/hr
                 const maxAlt = gpx.tracks[0].elevation.max; //max altitude in m
 
@@ -34,12 +32,10 @@ export const useWorkouts = (username) => {
                     id: i + 1,
                     distance: totalDistance,
                     totalTime: totalTime,
-                    totalTimeString: totalTimeString,
                     avgSpeed: avgSpeed,
                     maxAlt: maxAlt,
                     calsBurned: calsBurned,
                     startTime: startTime,
-                    dateString: dateString
                 })
                 return w
             }))

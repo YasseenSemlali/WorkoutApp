@@ -24,3 +24,8 @@ export function getAvgSpeed(distance, points) {
   const kmPerMs = distance / totalTime;
   return (kmPerMs * 3600000).toFixed(2);
 }
+
+export function dateToString(startDate) {
+  const date = new Date(startDate);
+  return date.toDateString();
+}
