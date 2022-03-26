@@ -6,6 +6,6 @@ export class Workout {
         this.totalTime = partial.totalTime || 0
         this.maxAlt = partial.maxAlt || 0
         this.calsBurned = partial.calsBurned || 0
-        this.startTime = partial.startTime || null;
+        this.startTime = new Date(partial.startTime) || null;
     }
 }

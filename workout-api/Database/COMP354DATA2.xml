@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf8"?>
 <workout>
+   <id>2</id>
    <distance>3</distance>
    <avgSpeed>23</avgSpeed>
    <totalTime>21</totalTime>
    <maxAlt>1</maxAlt>
-   <date>05-04-2022</date>
+   <startTime>05-04-2022</startTime>
    <caloriesBurned>25</caloriesBurned> 
 </workout>

@@ -13,7 +13,10 @@ export const useWorkouts = (username) => {
 
     useEffect(() => {
         async function exec() {
-            let wrk = await Promise.all([file1, file2, file3, file4, extra1].map(async (f, i) => {
+            let response = await fetch('http://localhost:8080/workouts.php')
+            let wrk = await response.json()
+            wrk = wrk.map(w => new Workout(w))
+            let wrk2 = await Promise.all([file1, file2, file3, file4, extra1].map(async (f, i) => {
                 let file = await fetch(f)
                 let text = await file.text()
                 const gpx =  new gpxParser()
@@ -21,9 +24,9 @@ export const useWorkouts = (username) => {
                 const regex = /<s2t:energy>(\d*)<\/s2t:energy>/
                 const match = text.match(regex)
                 const calsBurned = match ? text.match(regex)[1] : 0;
-                const totalDistance = (gpx.tracks[0].distance.total / 1000).toFixed(2); // distance in km
+                const totalDistance = (gpx.tracks[0].distance.total / 1000); // distance in km
                 const points = gpx.tracks[0].points;
-                const startTime = points[0].time
+                const startTime = points[0].time    
                 const totalTime = getTotalTime(points); // time in ms
                 const avgSpeed = getAvgSpeed(totalDistance, points); // avg speed in km/hr
                 const maxAlt = gpx.tracks[0].elevation.max; //max altitude in m
@@ -40,6 +43,8 @@ export const useWorkouts = (username) => {
                 return w
             }))
 
+            console.log(wrk)
+            console.log(wrk2)
             setWorkouts(wrk)
         }
         exec()
