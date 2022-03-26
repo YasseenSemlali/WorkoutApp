@@ -15,9 +15,9 @@ function display_workouts(...$paths){
     return json_encode($workouts);
 }
 
-$workouts = display_workouts("../Database/COMP354DATA.xml",
-                            "../Database/COMP354DATA2.xml",
-                            "../Database/COMP354DATA3.xml");
+$workouts = display_workouts("Database/COMP354DATA.xml",
+                            "Database/COMP354DATA2.xml",
+                            "Database/COMP354DATA3.xml");
 
 echo $workouts;
 ?>
