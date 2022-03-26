@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf8"?>
+<workout>
+   <distance>3</distance>
+   <avgSpeed>23</avgSpeed>
+   <totalTime>21</totalTime>
+   <maxAlt>1</maxAlt>
+   <date>05-04-2022</date>
+   <caloriesBurned>25</caloriesBurned> 
+</workout>
