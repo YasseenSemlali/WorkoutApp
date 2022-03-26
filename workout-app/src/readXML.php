@@ -3,16 +3,21 @@
 function create_workout($path){
     $xml = simplexml_load_file($path);
 
-    return json_encode($xml);
+    $json = json_encode($xml);
+    return json_decode($json);
 }
 
 function display_workouts(...$paths){
+    $workouts = array();
     foreach($paths as $path){
-        echo nl2br(create_workout($path)."\n");
+        array_push($workouts, create_workout($path));
     }
+    return json_encode($workouts);
 }
 
-display_workouts("../COMP354DATA.xml",
-                "../COMP354DATA2.xml",
-                "../COMP354DATA3.xml");
+$workouts = display_workouts("../COMP354DATA.xml",
+                            "../COMP354DATA2.xml",
+                            "../COMP354DATA3.xml");
+
+echo $workouts;
 ?>
