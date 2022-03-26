@@ -1,24 +1,18 @@
 <?php
 
-$xml = simplexml_load_file("../COMP354DATA.xml");
+function create_workout($path){
+    $xml = simplexml_load_file($path);
 
-$jason = json_encode($xml);
-$array = json_decode($jason, true);
+    return json_encode($xml);
+}
 
-print_r($jason);
+function display_workouts(...$paths){
+    foreach($paths as $path){
+        echo nl2br(create_workout($path)."\n");
+    }
+}
 
-// print_r($array);
-echo "<br>";
-echo $array ["distance"];
-echo "<br>";
-echo $array ['avgSpeed'];
-echo "<br>";
-echo $array ['totalTime'];
-echo "<br>";
-echo $array ['maxAlt'];
-echo "<br>";
-echo $array ['date'];
-echo "<br>";
-echo $array ['caloriesBurned'];
-echo "<br>";
+display_workouts("../COMP354DATA.xml",
+                "../COMP354DATA2.xml",
+                "../COMP354DATA3.xml");
 ?>
