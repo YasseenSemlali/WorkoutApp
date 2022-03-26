@@ -1,53 +1,25 @@
-import file1 from "../assets/gpx/Workout-2021-06-06-11-57-42.gpx";
-import file2 from "../assets/gpx/Workout-2021-06-18-13-36-30.gpx";
-import file3 from "../assets/gpx/Workout-2021-07-10-13-33-52.gpx";
-import file4 from "../assets/gpx/Workout-2021-07-17-12-54-07.gpx";
-import extra1 from "../assets/gpx/Extra-1.gpx";
-import { getTotalTime, getAvgSpeed } from "../utils/statisticsCalculator";
 import { useEffect, useState } from "react";
-import { Workout } from '../models'
-const gpxParser = require("gpxparser");
+import { Workout } from '../models';
 
 export const useWorkouts = (username) => {
     const [workouts, setWorkouts] = useState([])
+    console.log(workouts)
 
     useEffect(() => {
-        async function exec() {
-            let response = await fetch('http://localhost:8080/workouts.php')
-            let wrk = await response.json()
-            wrk = wrk.map(w => new Workout(w))
-            let wrk2 = await Promise.all([file1, file2, file3, file4, extra1].map(async (f, i) => {
-                let file = await fetch(f)
-                let text = await file.text()
-                const gpx =  new gpxParser()
-                gpx.parse(text);
-                const regex = /<s2t:energy>(\d*)<\/s2t:energy>/
-                const match = text.match(regex)
-                const calsBurned = match ? text.match(regex)[1] : 0;
-                const totalDistance = (gpx.tracks[0].distance.total / 1000); // distance in km
-                const points = gpx.tracks[0].points;
-                const startTime = points[0].time    
-                const totalTime = getTotalTime(points); // time in ms
-                const avgSpeed = getAvgSpeed(totalDistance, points); // avg speed in km/hr
-                const maxAlt = gpx.tracks[0].elevation.max; //max altitude in m
+        fetch('http://localhost:8080/workouts.php')
+            .then(response => {
+                if (response.status >= 400 && response.status < 600) {
+                    throw new Error("Bad response from server");
+                }
+                response.json()
+                    .then(wrk => setWorkouts(wrk.map(w => new Workout(w))))
+                    .catch(e => {
+                        alert('Failed to fetch workouts')
+                    })
 
-                const w = new Workout({
-                    id: i + 1,
-                    distance: totalDistance,
-                    totalTime: totalTime,
-                    avgSpeed: avgSpeed,
-                    maxAlt: maxAlt,
-                    calsBurned: calsBurned,
-                    startTime: startTime,
-                })
-                return w
-            }))
-
-            console.log(wrk)
-            console.log(wrk2)
-            setWorkouts(wrk)
-        }
-        exec()
+            }).catch(e => {
+                alert('Failed to fetch workouts')
+            })
     }, []);
 
     return { workouts: workouts, setWorkouts: setWorkouts }

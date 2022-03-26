@@ -5,9 +5,9 @@ function WorkoutGrid(props) {
 
   const columns = [
     { field: "totalTime", sortable: !disableFilters, headerName: "Date", width: 180 },
-    { field: "distance", sortable: !disableFilters, headerName: "Distance (km)", width: 180, renderCell: (params) => params.value.toFixed(2) },
+    { field: "distance", sortable: !disableFilters, headerName: "Distance (km)", width: 180, renderCell: (params) => Number(params.value).toFixed(2) },
     { field: "totalTime", sortable: !disableFilters, headerName: "Time (hr:min:sec)", width: 180, renderCell: (params) => timeToString(params.value) },
-    { field: "avgSpeed", sortable: !disableFilters, headerName: "Average Speed (km/hr)", width: 180, renderCell: (params) => params.value.toFixed(2) },
+    { field: "avgSpeed", sortable: !disableFilters, headerName: "Average Speed (km/hr)", width: 180, renderCell: (params) => Number(params.value).toFixed(2) },
     { field: "maxAlt", sortable: !disableFilters, headerName: "Maximum Altitude (m)", width: 180 },
     { field: "calsBurned", sortable: !disableFilters, headerName: "Calories Burned", width: 160 },
   ];
