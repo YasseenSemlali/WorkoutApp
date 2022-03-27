@@ -21,7 +21,7 @@ function Statistics() {
       <WorkoutGrid workouts={workouts} />
       <StatisticsView id="daily" stats={dailyStatistics} showAverageSpeed showAlt />
       <StatisticsView id="overall" stats={overallStatistics} workouts={workouts} showAverageSpeed />
-      <StatisticsView id="weekly" stats={weeklyStatistics} workouts={workouts} displayGrid />
+      <StatisticsView id="weekly" stats={weeklyStatistics} workouts={weeklyWorkouts} displayGrid />
     </Container>
   );
 }
