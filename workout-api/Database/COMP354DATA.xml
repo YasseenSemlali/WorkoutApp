@@ -1,9 +1,14 @@
-<?xml version="1.0" encoding="utf8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
+
 <workout>
-   <distance>2</distance>
-   <avgSpeed>21</avgSpeed>
-   <totalTime>24</totalTime>
-   <maxAlt>2</maxAlt>
-   <date>05-03-2022</date>
-   <caloriesBurned>24</caloriesBurned> 
+<id>1</id>
+<distance>75.93237762155539</distance>
+<avgSpeed>27.156696032574875</avgSpeed>
+<totalTime>10065899</totalTime>
+<maxAlt>25</maxAlt>
+<calsBurned>5767533</calsBurned>
+<startTime>2021-06-06T11:57:42.401Z</startTime>
 </workout>
+
+
+
