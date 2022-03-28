@@ -38,7 +38,10 @@ function create_workout($path){
 function display_workouts(...$paths){
     $workouts = array();
     foreach($paths as $path){
-        array_push($workouts, create_workout($path));
+        $workout = create_workout($path);
+        if($workout!=false){
+            array_push($workouts, $workout);
+        }
     }
     return json_encode($workouts);
 }
