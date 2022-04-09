@@ -39,6 +39,7 @@ function Navigation() {
         <LinksDiv>
           <NavLink to="/">Home</NavLink>
           <NavLink to="/statistics">Statistics</NavLink>
+          <NavLink to="/graphs">Graphs</NavLink>
         </LinksDiv>
       </Toolbar>
     </Nav>
