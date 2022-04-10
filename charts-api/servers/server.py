@@ -21,16 +21,20 @@ def index():
 @app.route('/activity_recap')
 def activity_recap():
     # Load data
-  df = pd.read_csv("data.csv")
+  with open('workouts.json') as json_file:
+    data = json.load(json_file)
+    df = pd.DataFrame.from_dict(data)
+
+  # df = pd.read_csv("data.csv")
 
   # Create figure
   fig = go.Figure()
 
-  y_miles = df.Distance
-  y_km = df.Distance * 1.60934
+  y_miles = df.distance
+  y_km = df.distance * 1.60934
 
   fig.add_trace(
-      go.Bar(x=df.Date, y=y_miles, marker_color='indianred'))
+      go.Bar(x=df.startTime, y=y_miles, marker_color='indianred'))
 
   # Set title
   fig.update_layout(
@@ -108,24 +112,29 @@ def activity_recap():
 @app.route('/moving_avg', methods=['POST', 'GET'])
 def moving_avg():
   # default values
-  df=pd.read_csv("data.csv")
+
+  with open('workouts.json') as json_file:
+    data = json.load(json_file)
+    df = pd.DataFrame.from_dict(data)
+  # df=pd.read_csv("data.csv")
   n = 5
   
-  date1 = df["Date"].iloc[0]
-  date2 = df["Date"].iloc[-1]
+  date1 = pd.to_datetime(df["startTime"].iloc[0])
+  date2 = pd.to_datetime(df["startTime"].iloc[-1])
   if request.method == 'POST':
     n = int(request.form['window'])
     date1 = request.form['date1']
     date2 = request.form['date2']
 
   
-  df["moveAvg"] = df["Distance"].rolling(n).mean()
+  df["moveAvg"] = df["distance"].rolling(n).mean()
 
-  df['Date'] = pd.to_datetime(df['Date'])
-  selected_dates = (df['Date'] >= date1) & (df['Date'] <= date2)
+  df['startTime'] = pd.to_datetime(df['startTime'])
+  df.sort_values(by='startTime', inplace=True)
+  selected_dates = (df['startTime'] >= date1) & (df['startTime'] <= date2)
   df = df.loc[selected_dates]
 
-  fig = go.Figure([go.Scatter(x=df['Date'], y=df['moveAvg'])])
+  fig = go.Figure([go.Scatter(x=df['startTime'], y=df['moveAvg'])])
 
   fig.update_layout(
     title_text="Moving Average",
@@ -220,158 +229,6 @@ def elevation():
                                  title='elevation [meters]',
                                  titlefont_size=15,
                                  tickfont_size=15))
-
-    # hiding trace legend
-    # fig.update_layout(showlegend=False)
-
-    '''fig.update_layout(
-        title_text="Elevation / Ride Intensity",
-        title_x=0.5,
-        yaxis=dict(
-            title='elevation [ft]',
-            titlefont_size=15,
-            tickfont_size=15),
-        xaxis=dict(
-            title='distance traveled [ft]',
-            titlefont_size=15,
-            tickfont_size=15))'''
-
-    # Groundwork for ft-meter conversion and workout selection
-    '''
-    def foo1():
-        i = 0
-        #fig.data = []
-        for v in df.loc[df.WorkoutID == num]['Value']:
-            if i < len(df.loc[df.WorkoutID == num]) - 1:
-                if round(df.loc[df.WorkoutID == num]['Value'][i]) > round(df.loc[df.WorkoutID == num]['Value'][i + 1]):
-                    fig.add_trace(go.Scatter(x=[df.loc[df.WorkoutID == num]['Distance'][i],
-                                                df.loc[df.WorkoutID == num]['Distance'][i + 1] - 0.2],
-                                             y=[df.loc[df.WorkoutID == num]['Value'][i],
-                                                df.loc[df.WorkoutID == num]['Value'][i + 1]], line_color='blue',
-                                             fill='tozeroy',
-                                             fillcolor='chartreuse'))
-                    i = i + 1
-                elif round(df.loc[df.WorkoutID == num]['Value'][i]) == round(
-                        df.loc[df.WorkoutID == num]['Value'][i + 1]):
-                    fig.add_trace(go.Scatter(x=[df.loc[df.WorkoutID == num]['Distance'][i],
-                                                df.loc[df.WorkoutID == num]['Distance'][i + 1] - 0.2],
-                                             y=[df.loc[df.WorkoutID == num]['Value'][i],
-                                                df.loc[df.WorkoutID == num]['Value'][i + 1]], line_color='blue',
-                                             fill='tozeroy',
-                                             fillcolor='cyan'))
-                    i = i + 1
-
-                elif round(df.loc[df.WorkoutID == num]['Value'][i]) < round(
-                        df.loc[df.WorkoutID == num]['Value'][i + 1]):
-                    fig.add_trace(go.Scatter(x=[df.loc[df.WorkoutID == num]['Distance'][i],
-                                                df.loc[df.WorkoutID == num]['Distance'][i + 1] - 0.2],
-                                             y=[df.loc[df.WorkoutID == num]['Value'][i],
-                                                df.loc[df.WorkoutID == num]['Value'][i + 1]], line_color='blue',
-                                             fill='tozeroy',
-                                             fillcolor='lightcoral'))
-                    i = i + 1
-        y_min = df.loc[df.WorkoutID == num]['Value'].min() - 20
-        y_max = df.loc[df.WorkoutID == num]['Value'].max() + 20
-        fig.update_layout(yaxis=dict(range=[y_min, y_max]))
-        x_max = df.loc[df.WorkoutID == num]['Distance'].max() + 10
-        fig.update_layout(xaxis=dict(range=[-10, x_max]))
-
-        fig.update_layout(
-            title_text="Elevation / Ride Intensity",
-            title_x=0.5,
-            yaxis=dict(
-                title='elevation [ft]',
-                titlefont_size=15,
-                tickfont_size=15),
-            xaxis=dict(
-                title='distance traveled [ft]',
-                titlefont_size=15,
-                tickfont_size=15))
-
-
-
-    def foo2():
-        i = 0
-        #fig.data = []
-        for v in df_meters.loc[df_meters.WorkoutID == num]['Value']:
-            if i < len(df_meters.loc[df_meters.WorkoutID == num]) - 1:
-                if (df_meters.loc[df_meters.WorkoutID == num]['Value'][i]) > (df_meters.loc[df_meters.WorkoutID == num]['Value'][i + 1]):
-                    fig.add_trace(go.Scatter(x=[df_meters.loc[df_meters.WorkoutID == num]['Distance'][i],
-                                                df_meters.loc[df_meters.WorkoutID == num]['Distance'][i + 1] - 0.2],
-                                             y=[df_meters.loc[df_meters.WorkoutID == num]['Value'][i],
-                                                df_meters.loc[df_meters.WorkoutID == num]['Value'][i + 1]], line_color='blue',
-                                             fill='tozeroy',
-                                             fillcolor='chartreuse'))
-                    i = i + 1
-                elif (df_meters.loc[df_meters.WorkoutID == num]['Value'][i]) == (
-                        df_meters.loc[df_meters.WorkoutID == num]['Value'][i + 1]):
-                    fig.add_trace(go.Scatter(x=[df_meters.loc[df_meters.WorkoutID == num]['Distance'][i],
-                                                df_meters.loc[df_meters.WorkoutID == num]['Distance'][i + 1] - 0.2],
-                                             y=[df_meters.loc[df_meters.WorkoutID == num]['Value'][i],
-                                                df_meters.loc[df_meters.WorkoutID == num]['Value'][i + 1]], line_color='blue',
-                                             fill='tozeroy',
-                                             fillcolor='cyan'))
-                    i = i + 1
-
-                elif (df_meters.loc[df_meters.WorkoutID == num]['Value'][i]) < (
-                        df_meters.loc[df_meters.WorkoutID == num]['Value'][i + 1]):
-                    fig.add_trace(go.Scatter(x=[df_meters.loc[df_meters.WorkoutID == num]['Distance'][i],
-                                                df_meters.loc[df_meters.WorkoutID == num]['Distance'][i + 1] - 0.2],
-                                             y=[df_meters.loc[df_meters.WorkoutID == num]['Value'][i],
-                                                df_meters.loc[df_meters.WorkoutID == num]['Value'][i + 1]], line_color='blue',
-                                             fill='tozeroy',
-                                             fillcolor='lightcoral'))
-                    i = i + 1
-
-
-        # hiding trace legend
-        #fig.update_layout(showlegend=False)
-        y_min = df.loc[df_meters.WorkoutID == num]['Value'].min() - 20*0.3048
-        y_max = df.loc[df_meters.WorkoutID == num]['Value'].max() + 20*0.3048
-        fig.update_layout(yaxis=dict(range=[y_min, y_max]))
-        x_max = df.loc[df_meters.WorkoutID == num]['Distance'].max() + 10
-        fig.update_layout(xaxis=dict(range=[-10, x_max]))
-
-
-
-    #yy = df.loc[df.WorkoutID == num]['Value'].apply(lambda y: y * 0.3048)
-    #xx = df.loc[df.WorkoutID == num]['Distance'].apply(lambda y: y * 0.3048)
-
-    updatemenus = [{
-        'buttons': [{'method': 'update',
-                     'label': 'ft/meters',
-                     'args': [
-                         # 1. updates to the traces
-                         {#'y': foo2(),
-                          #'x': [xx],
-                          'visible': True},
-                         # 2. updates to the layout
-                         {'yaxis': {'title': 'Elevation [meters]'},#'range': [min_meters, max_meters]},
-                          'xaxis': {'title': 'Distance Traveled[meters]'}},
-                         # 3. which traces are affected
-                         [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18],
-                     ],
-                     'args2': [
-                         # 1. updates to the traces
-                         {'y': [],#foo1(),
-                          #'x': [df.loc[df.WorkoutID == num]['Distance']],
-                          'visible': True},
-                         # 2. updates to the layout
-                         {'yaxis': {'title': 'Elevation [ft]','range': [min, max]},
-                          'xaxis': {'title': 'Distance Traveled[ft]'}},
-                         # 3. which traces are affected
-                         [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18],
-                     ]
-                     },
-                    ],
-        'type': 'buttons',
-        'direction': 'up',
-        'showactive': True, }]
-
-
-
-    # update layout with buttons, and show the figure
-    fig.update_layout(updatemenus=updatemenus)'''
 
     return fig.to_html()
 
