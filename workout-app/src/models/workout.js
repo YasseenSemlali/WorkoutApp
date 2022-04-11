@@ -7,5 +7,6 @@ export class Workout {
         this.maxAlt = Number(partial.maxAlt || 0)
         this.calsBurned = Number(partial.calsBurned || 0)
         this.startTime = new Date(partial.startTime) || null;
+        this.type = partial.type || "cycling";
     }
 }
