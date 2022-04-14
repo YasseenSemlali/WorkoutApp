@@ -7,7 +7,8 @@ import WorkoutGrid from "../components/WorkoutGrid";
 import { useStatistics, useWorkouts } from "../hooks";
 
 function Statistics() {
-  const d = useMemo(() => new Date("2021-07-17"), []);
+  // Hardcode date for demonstrating the weekly stats
+  const d = useMemo(() => new Date("2022-03-23"), []);
   const { workouts } = useWorkouts("asdf");
   const weeklyWorkouts = useMemo(() => workouts.filter(w => daysBetween(w.startTime, d) <= 7), [workouts, d]);
   const dailyWorkouts = useMemo(() => workouts.filter(w => daysBetween(w.startTime, d) <= 1), [workouts, d]);

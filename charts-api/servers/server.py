@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 import plotly.graph_objects as go
 import chart_studio
 import chart_studio.plotly as py
@@ -109,7 +109,7 @@ def activity_recap():
   return fig.to_html()
 
 
-@app.route('/moving_avg', methods=['POST', 'GET'])
+@app.route('/moving_avg')
 def moving_avg():
   # default values
 
@@ -121,10 +121,14 @@ def moving_avg():
   
   date1 = pd.to_datetime(df["startTime"].iloc[0])
   date2 = pd.to_datetime(df["startTime"].iloc[-1])
-  if request.method == 'POST':
-    n = int(request.form['window'])
-    date1 = request.form['date1']
-    date2 = request.form['date2']
+  if 'window' in request.args and request.args['window'] != '':
+    n = int(request.args['window'])
+
+  if 'date1' in request.args and request.args['date1'] != '':
+    date1 = (request.args['date1'])
+
+  if 'date2' in request.args and request.args['date2'] != '':
+    date2 = (request.args['date2'])
 
   
   df["moveAvg"] = df["distance"].rolling(n).mean()
@@ -232,6 +236,26 @@ def elevation():
 
     return fig.to_html()
 
+@app.route('/workouts')
+def workouts():
+    if request.method == "OPTIONS": # CORS preflight
+        return _build_cors_preflight_response()
+    with open('workouts.json') as json_file:
+        data = json.load(json_file)
+
+        return  _corsify_actual_response(jsonify(data))
+
+#
+def _build_cors_preflight_response():
+    response = make_response()
+    response.headers.add("Access-Control-Allow-Origin", "*")
+    response.headers.add('Access-Control-Allow-Headers', "*")
+    response.headers.add('Access-Control-Allow-Methods', "*")
+    return response
+
+def _corsify_actual_response(response):
+    response.headers.add("Access-Control-Allow-Origin", "*")
+    return response
 
 if __name__ == '__main__':
   app.run(debug=True)
