@@ -1,0 +1,38 @@
+[
+    {
+        "id": 1,
+        "distance": 75,
+        "avgSpeed": 27.156696032574875,
+        "totalTime": 10065899,
+        "maxAlt": 25,
+        "calsBurned": 5767533,
+        "startTime": "2021-06-06T11:57:42.401Z"
+    },
+    {
+        "id": 2,
+        "distance": 76,
+        "avgSpeed": 26.282177485657016,
+        "totalTime": 10410165,
+        "maxAlt": 25,
+        "calsBurned": 5637791,
+        "startTime": "2021-06-18T13:36:30.025Z"
+    },
+    {
+        "id": 3,
+        "distance": 159,
+        "avgSpeed": 22.620786258888405,
+        "totalTime": 25382589,
+        "maxAlt": 26,
+        "calsBurned": 10899943,
+        "startTime": "2021-07-10T13:33:52.562Z"
+    },
+    {
+        "id": 4,
+        "distance": 137,
+        "avgSpeed": 24.465940208364298,
+        "totalTime": 20168129,
+        "maxAlt": 106,
+        "calsBurned": 11754297,
+        "startTime": "2022-07-17T12:54:07.628Z"
+    }
+]
