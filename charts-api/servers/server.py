@@ -45,7 +45,7 @@ def activity_recap():
   # Add range slider
   fig.update_layout(
       yaxis=dict(
-          title='Distance',
+          title='Distance (miles)',
           titlefont_size=16,
           tickfont_size=14,
       ),
@@ -85,7 +85,7 @@ def activity_recap():
                                         {'y': [y_km],
                                          'visible': True},
                                          # 2. updates to the layout
-                                        {'yaxis_title_text':'Distance (km)'},
+                                        {'yaxis.title':'Distance (km)'},
                                         # 3. which traces are affected 
                                         [0, 1],
                                         
@@ -95,7 +95,7 @@ def activity_recap():
                                          {'y': [y_miles],
                                          'visible':True},
                                          # 2. updates to the layout
-                                        {'yaxis_title_text':'Distance (miles)'},
+                                        {'yaxis.title':'Distance (miles)'},
                                          # 3. which traces are affected
                                          [0, 1]
                                         ]
